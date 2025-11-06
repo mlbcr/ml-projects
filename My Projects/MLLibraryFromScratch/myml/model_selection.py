@@ -39,3 +39,28 @@ def train_test_split(X, y, test_size=0.2, train_size=0.2, random_state=None, shu
     y_train, y_test = y[indices[:train_count]], y[indices[train_count:]]
 
     return X_train, X_test, y_train, y_test
+
+
+def cross_val_score(model, X, y, cv=5):
+    n = X.shape[0]
+    fold_size = n // cv
+    scores = []
+
+    for i in range(cv):
+        start = i * fold_size
+        end = (i + 1) * fold_size if i != cv - 1 else n
+
+        X_test = X[start:end]
+        y_test = y[start:end]
+
+        X_train = np.concatenate((X[:start], X[end:]), axis=0)
+        y_train = np.concatenate((y[:start], y[end:]), axis=0)
+        print("X_train:\n", X_train)
+        print("X_test:\n", X_test)
+        print('--------------------------')
+
+        model.fit(X_train, y_train)
+        score = model.score(X_test, y_test)
+        scores.append(score)
+
+    return np.mean(scores)

@@ -1,7 +1,8 @@
 import numpy as np
+from .base import BaseModel
 # -----------------------------------------------------------------------------------------
 # Linear Regression with Normal Equation
-class EqLinearRegression:
+class EqLinearRegression(BaseModel):
     def __init__(self):
         self.theta = None
 
@@ -13,20 +14,10 @@ class EqLinearRegression:
         X_b = np.c_[np.ones((X.shape[0], 1)), X]
         return X_b.dot(self.theta)
 
-    def score(self, y_pred, y, type="r2"):
-        if type == "r2":
-            r2 = 1 - np.sum((y - y_pred) ** 2) / np.sum((y - np.mean(y)) ** 2)
-            return r2
-        elif type == "mse":
-            mse = np.mean((y - y_pred) ** 2)
-            return mse
-        return None
-X = 2 * np.random.rand(100, 1)
-y = 4 + 3 * X + np.random.randn(100, 1)
 
 # -----------------------------------------------------------------------------------------
 # Linear Regression with Batch Gradient Descent
-class LinearRegression:
+class LinearRegression(BaseModel):
     def __init__(self, eta=0.01, n_iterations=1000):
         self.theta = None
         self.n_iterations = n_iterations
@@ -45,18 +36,9 @@ class LinearRegression:
     def predict(self, X):
         X_b = np.c_[np.ones((X.shape[0], 1)), X]
         return X_b.dot(self.theta)
-
-    def score(self, y_pred, y, type="r2"):
-        if type == "r2":
-            r2 = 1 - np.sum((y - y_pred) ** 2) / np.sum((y - np.mean(y)) ** 2)
-            return r2
-        elif type == "mse":
-            mse = np.mean((y - y_pred) ** 2)
-            return mse
-        return None
 # -----------------------------------------------------------------------------------------
 # Linear Regression with Stochastic Gradient Descent
-class SGD:
+class SGD(BaseModel):
     def __init__(self, eta=0.1, n_epochs=500):
         self.theta = None
         self.eta = eta
@@ -86,12 +68,3 @@ class SGD:
     def predict(self, X):
         X_b = np.c_[np.ones((X.shape[0], 1)), X]
         return X_b.dot(self.theta)
-
-    def score(self, y_pred, y, type="r2"):
-        if type == "r2":
-            r2 = 1 - np.sum((y - y_pred) ** 2) / np.sum((y - np.mean(y)) ** 2)
-            return r2
-        elif type == "mse":
-            mse = np.mean((y - y_pred) ** 2)
-            return mse
-        return None
