@@ -68,3 +68,35 @@ class SGD(BaseModel):
     def predict(self, X):
         X_b = np.c_[np.ones((X.shape[0], 1)), X]
         return X_b.dot(self.theta)
+
+# -----------------------------------------------------------------------------------------
+# Logistic Regression 
+class LogisticRegression(BaseModel):
+    def __init__(self, eta=0.01, n_iterations=1000):
+        self.theta = None
+        self.n_iterations = n_iterations
+        self.eta = eta
+
+    def fit(self, X, y):
+        m = X.shape[0]
+        X_b = np.c_[np.ones((m, 1)), X]
+        y = y.reshape(-1, 1)
+
+        self.theta = np.random.randn(X_b.shape[1], 1)
+
+        for i in range(self.n_iterations):
+            z = X_b.dot(self.theta)
+            probs = 1 / (1 + np.exp(-z))
+            gradients = (1 / m) * X_b.T.dot(probs - y)
+            self.theta -= self.eta * gradients
+
+    def predict_proba(self, X):
+        X_b = np.c_[np.ones((X.shape[0], 1)), X]
+        return 1 / (1 + np.exp(-X_b.dot(self.theta)))
+
+    def predict(self, X):
+        return (self.predict_proba(X) >= 0.50).astype(int)
+
+    def score(self, X, y):
+        y_pred = self.predict(X)
+        return np.mean(y_pred == y)

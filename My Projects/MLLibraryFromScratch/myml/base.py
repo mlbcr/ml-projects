@@ -2,10 +2,10 @@ import numpy as np
 
 class BaseModel:
     def fit(self, X, y):
-        raise NotImplementedError("O método fit() precisa ser implementado.")
+        raise NotImplementedError("fit() method needs to be implemented.")
 
     def predict(self, X):
-        raise NotImplementedError("O método predict() precisa ser implementado.")
+        raise NotImplementedError("predict() method needs to be implemented.")
 
     def score(self, X, y, type="r2"):
         y_pred = self.predict(X)
