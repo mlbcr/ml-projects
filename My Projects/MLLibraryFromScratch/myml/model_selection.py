@@ -1,6 +1,7 @@
 import numpy as np
 
-def train_test_split(X, y, test_size=0.2, train_size=0.2, random_state=None, shuffle=False, stratify=None):
+def train_test_split(X: np.ndarray, y: np.ndarray, test_size: float =0.2, random_state: int = None,
+                     shuffle: bool = False, stratify: np.ndarray = None):
     """
     A simple implementation of sklearn.model_selection train_test_split.
     This is a simplified reimplementation for educational purposes :)
@@ -13,14 +14,18 @@ def train_test_split(X, y, test_size=0.2, train_size=0.2, random_state=None, shu
         target vector
     test_size: float
         dataset percentage for test
-    train_size: float
-        dataset percentage for training
     random_state: int (optional, the standard is 42)
         random for reproducibility
     shuffle: boolean
         shuffles dataset before splitting
     stratify (not implemented yet): np.ndarray, default None
-        ensures that the class proportions are the same as in the original dataset (only for classification problems).
+        Not implemented yet, ensures that the class proportions are the same as in the original dataset
+        (only for classification problems).
+
+    Returns:
+
+    X_train, X_test, y_train, y_test: tuple
+        splitted dataset
     """
 
     if random_state is not None:
@@ -41,7 +46,27 @@ def train_test_split(X, y, test_size=0.2, train_size=0.2, random_state=None, shu
     return X_train, X_test, y_train, y_test
 
 
-def cross_val_score(model, X, y, cv=5):
+def cross_val_score(model, X: np.ndarray, y: np.ndarray, cv=5):
+    """
+    A simple implementation of sklearn.model_selection cross_val_score.
+    This is a simplified reimplementation for educational purposes :)
+
+    Parameters:
+
+    model: object
+        any model that was implemented in the modules that have fit(X, y) and score(X, y) methods
+    X: np.ndarray
+        feature matrix
+    y: np.ndarray
+        target vector
+    cv: int
+        number of cross-validation folds
+
+    Returns:
+
+    mean_scores: float
+        the mean of scores obtained on each fold
+    """
     n = X.shape[0]
     fold_size = n // cv
     scores = []
