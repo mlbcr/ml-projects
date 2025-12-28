@@ -43,12 +43,10 @@ class KMeans:
             centroids.append(c)
 
         centroids = np.array(centroids)
-        self.centroids = centroids
 
 
         # Find closest centroids
         idx = self._find_closest(X, centroids)
-        print("Initial clusters: ", idx)
         print("K-Means iteration 0/%d" % (self.max_iters))
 
         for i in range(1, self.max_iters):
@@ -57,5 +55,9 @@ class KMeans:
             idx = self._find_closest(X, centroids)
 
             centroids = self._centroid_mean(X, idx, self.n_clusters)
-    
-        return self.centroids, idx
+
+        self.centroids = centroids
+
+    def predict(self, X_new):
+        clusters = self._find_closest(X_new, self.centroids)
+        return clusters
