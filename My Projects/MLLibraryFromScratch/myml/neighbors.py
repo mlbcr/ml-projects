@@ -8,3 +8,4 @@ class KNeighborsClassifier:
         self.y_train = y
     def _euclidean_distance(self, n1, n2):
         return np.sqrt(np.sum((n1 - n2) ** 2))
+
